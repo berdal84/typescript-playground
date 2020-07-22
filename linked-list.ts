@@ -7,7 +7,7 @@
  * How to run:
  * 
  * compile using tsc: `tsc *.ts`
- * and run using node `node linked-list.ts`
+ * and run using node `node linked-list.js`
  */
 
 export class Item<T>{
