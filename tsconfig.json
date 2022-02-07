@@ -1,0 +1,18 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es5",
+        "module": "CommonJS",
+        "declaration": true,
+        "outDir": "./dist",
+        "typeRoots": [
+            "./node_modules/@types"
+        ]
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/__tests__/*"]
+}

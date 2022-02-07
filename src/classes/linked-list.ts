@@ -3,11 +3,6 @@
  * This is an exercise.
  * 
  * Simple piece of code to implement a Linked list in typescript
- * 
- * How to run:
- * 
- * compile using tsc: `tsc *.ts`
- * and run using node `node linked-list.js`
  */
 
 export class Item<T>{
@@ -26,6 +21,8 @@ export class LinkedList<T> {
     last: Item<T>;
 
     constructor(){
+        this.root = null;
+        this.last = null
         console.log('LinkedList well created.');
     }
 
@@ -43,8 +40,8 @@ export class LinkedList<T> {
 
     empty(){
         delete this.root;
-        this.root = undefined;
-        this.last = undefined;
+        this.root = null;
+        this.last = null;
     }
 
     log(): void {
@@ -69,15 +66,3 @@ export class LinkedList<T> {
     }
 
 }
-
-console.log('-- program begin --');
-
-const ll = new LinkedList<string>();
-
-ll.push('Premier mot');
-ll.push('Second');
-ll.push('Troisième');
-
-ll.log();
-
-console.log('-- program end --');
