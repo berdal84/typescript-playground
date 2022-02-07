@@ -2,12 +2,11 @@
   "name": "typescript-sandbox",
   "version": "1.0.0",
   "description": "Various piece of code using Typescript language",
-
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc --watch",
-    "start": "npm run linked-list",
-    "linked-list": "npx ts-node dist/examples/linked-list",
+    "examples": "npm run ll-example",
+    "ll-example": "npx ts-node dist/examples/linked-list",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +22,7 @@
     "url": "https://github.com/berdal84/typescript-sandbox/issues"
   },
   "homepage": "https://github.com/berdal84/typescript-sandbox#readme",
-  "dependencies": {
+  "devDependencies": {
     "node": "^17.4.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.5"
