@@ -1,4 +1,4 @@
-import { LinkedList } from '../classes/linked-list'; // TODO: add a root path in ts-config.json
+import { LinkedList } from '../lib/linked-list'; // TODO: add a root path in ts-config.json
 
 console.log('-- program begin --');
 
