@@ -1,8 +1,7 @@
 Typescript Playground
 =====================
 
-A repository to run small piece of code using Typescript language. There is no real objective except maybe to clarify some things I learnt or to learn thinks I do not understand yet.
-
+A repository to run small piece of code using Typescript language. The main purpose of it is to have a ready to use repository to try things.
 ## `npm install`
 
 Will install the dependencies
