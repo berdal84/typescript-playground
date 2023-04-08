@@ -11,9 +11,9 @@ Will install the dependencies
 
 Will run all the examples
 
-## `npm run build`
+## `npm run dev`
 
-Will build the examples, only necessary if you fork and want to build without running the examples.
+Will run the tests in watch mode.
 
 ## Folder structure
 
