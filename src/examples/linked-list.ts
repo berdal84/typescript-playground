@@ -1,4 +1,4 @@
-import { LinkedList } from '../lib/linked-list'; // TODO: add a root path in ts-config.json
+import { LinkedList } from '@shared';
 
 console.log('-- program begin --');
 
@@ -8,6 +8,6 @@ ll.push('First item');
 ll.push('Second');
 ll.push('Third');
 
-ll.log();
+console.log( ll.to_string() );
 
 console.log('-- program end --');

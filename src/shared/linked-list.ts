@@ -44,7 +44,7 @@ export class LinkedList<T> {
         this.last = null;
     }
 
-    log(): void {
+    to_string(): string {
 
         let result = '';
         let currentItem = this.root;
@@ -62,7 +62,7 @@ export class LinkedList<T> {
             result = '[empty list]'
         }
 
-        console.log(result);
+        return result;
     }
 
 }

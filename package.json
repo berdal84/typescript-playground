@@ -1,17 +1,18 @@
 {
-  "name": "typescript-sandbox",
+  "name": "typescript-playground",
   "version": "1.0.0",
   "description": "Various piece of code using Typescript language",
   "scripts": {
-    "build": "npx tsc",
+    "build": "npm run tsc",
+    "start": "npm run all-examples",
     "watch": "npx tsc --watch",
-    "examples": "npm run ll-example",
+    "all-examples": "npm run ll-example",
     "ll-example": "npx ts-node dist/examples/linked-list",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/berdal84/typescript-sandbox.git"
+    "url": "git+https://github.com/berdal84/typescript-playground.git"
   },
   "keywords": [
     "typescript"
@@ -19,12 +20,13 @@
   "author": "Berenger Dalle-Cort",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/berdal84/typescript-sandbox/issues"
+    "url": "https://github.com/berdal84/typescript-playground/issues"
   },
-  "homepage": "https://github.com/berdal84/typescript-sandbox#readme",
+  "homepage": "https://github.com/berdal84/typescript-playground#readme",
   "devDependencies": {
-    "node": "^17.4.0",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
+    "node": "^18.15.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^4.9.5"
   }
 }

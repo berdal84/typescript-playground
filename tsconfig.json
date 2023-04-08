@@ -7,12 +7,19 @@
         "outDir": "./dist",
         "typeRoots": [
             "./node_modules/@types"
-        ]
+        ],
+        "paths": {
+            "@shared": ["./src/shared/*", "./src/shared"]
+        }
     },
     "include": [
         "src"
     ],
     "exclude": [
         "node_modules",
-        "**/__tests__/*"]
+        "**/__tests__/*"],
+    "ts-node": {
+        // Do not forget to `npm i -D tsconfig-paths`
+        "require": ["tsconfig-paths/register"]
+    }
 }
