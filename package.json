@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/berdal84/typescript-playground#readme",
   "devDependencies": {
+    "@jest/globals": "^29.5.0",
     "@types/jest": "^29.5.0",
     "jest": "^29.5.0",
     "node": "^18.15.0",
