@@ -21,30 +21,39 @@ export class Item<T>{
 
 export class LinkedList<T> {
 
+    // Ref to the first item
     root: Item<T>;
+    // Ref to the last item
     last: Item<T>;
+    // Cache length instead of having to count each time length() is called
+    private _length;
 
     constructor(){
         this.root = null;
         this.last = null;
+        this._length = 0;
         console.log("LinkedList<T>()");
     }
 
     /**
      * Push a data in the linked list.
      * The data will be stored in an item linked to the last item.
-     * @param _data
+     * @param data
      */
-    push(_data: T) {
-        const newItem = new Item<T>(_data);
+    push(...data: T[]) {
+        data.forEach(_data => {
+            const newItem = new Item<T>(_data);
 
-        if( this.root ) {            
-            this.last.next = newItem;
-        } else {
-            this.root = newItem;
-        }
+            if( this.root ) {
+                this.last.next = newItem;
+            } else {
+                this.root = newItem;
+            }
 
-        this.last = newItem;        
+            this.last = newItem;
+        })
+
+        this._length += data.length;
     }
 
     /**
@@ -61,6 +70,7 @@ export class LinkedList<T> {
         delete this.root;
         this.root = null;
         this.last = null;
+        this._length = 0;
     }
 
     /**
@@ -84,6 +94,13 @@ export class LinkedList<T> {
         result += ']';
 
         return result;
+    }
+
+    /**
+     * Get the item count in this list
+     */
+    get length(): number {
+        return this._length;
     }
 
 }
