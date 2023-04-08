@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/berdal84/typescript-playground/actions/workflows/node.js.yml/badge.svg)](https://github.com/berdal84/typescript-playground/actions/workflows/node.js.yml)
+
 Typescript Playground
 =====================
 
