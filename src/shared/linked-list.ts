@@ -32,7 +32,6 @@ export class LinkedList<T> {
         this.root = null;
         this.last = null;
         this._length = 0;
-        console.log("LinkedList<T>()");
     }
 
     /**
