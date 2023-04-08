@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Various piece of code using Typescript language",
   "scripts": {
-    "build": "npx run tsc",
+    "build": "npx tsc",
     "start": "npm run all-examples",
     "watch": "npx tsc --watch",
     "all-examples": "npm run ll-example",
