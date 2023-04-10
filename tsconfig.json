@@ -6,6 +6,7 @@
         "declaration": true,
         "outDir": "./dist",
         "experimentalDecorators": true,
+        "resolveJsonModule": true,
         "typeRoots": [
             "./node_modules/@types"
         ],
