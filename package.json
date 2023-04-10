@@ -7,7 +7,7 @@
     "start": "npm run all-examples",
     "watch": "npx tsc --watch",
     "all-examples": "npm run ll-example",
-    "ll-example": "npx ts-node dist/examples/linked-list",
+    "ll-example": "npx ts-node src/examples/linked-list",
     "test": "npx jest",
     "dev": "npx jest --watch"
   },
