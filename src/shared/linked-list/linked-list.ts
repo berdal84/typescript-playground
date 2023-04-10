@@ -9,10 +9,12 @@ export class LinkedList<T> {
     // Cache length instead of having to count each time length() is called
     private _length;
 
-    constructor(){
+    constructor(...data: T[]){
         this.root = null;
         this.last = null;
         this._length = 0;
+
+        if(data.length > 0) this.push(...data);
     }
 
     /**

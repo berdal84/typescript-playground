@@ -10,6 +10,14 @@ describe('LinkedList', () => {
         expect(list.is_empty()).toBeTruthy();
     })
 
+    test('constructor with initial data', () => {
+        const list = new LinkedList('some', 'data');
+        expect(list.last).not.toBeNull();
+        expect(list.root).not.toBeNull();
+        expect(list.is_empty()).not.toBeTruthy();
+        expect(list.length).toBe(2);
+    })
+
     test('push() single item', () => {
         const list = new LinkedList();
         list.push("1");
@@ -40,18 +48,12 @@ describe('LinkedList', () => {
     })
 
     test('to_string() for a 3-length item list', () => {
-        const list = new LinkedList();
-        list.push("1");
-        list.push("2");
-        list.push("3");
+        const list = new LinkedList('1', '2', '3');
         expect(list.to_string()).toBe("[1 -> 2 -> 3]")
     })
 
     test('clear()', () => {
-        const list = new LinkedList();
-        list.push("1");
-        list.push("2");
-        list.push("3");
+        const list = new LinkedList('1', '2', '3');
         expect(list.is_empty()).toBe(false);
         list.clear();
         expect(list.is_empty()).toBe(true);
@@ -60,19 +62,14 @@ describe('LinkedList', () => {
     test('length()', () => {
         const list = new LinkedList();
         expect(list.length).toBe(0);
-        list.push("1");
-        list.push("2");
-        list.push("3");
+        list.push('1', '2', '3');
         expect(list.length).toBe(3);
         list.clear();
         expect(list.length).toBe(0);
     })
 
     test('at()', () => {
-        const list = new LinkedList();
-        list.push("1");
-        list.push("2");
-        list.push("3");
+        const list = new LinkedList('1', '2', '3');
         expect(list.at(0)).toBe("1");
         expect(list.at(1)).toBe("2");
         expect(list.at(2)).toBe("3");
@@ -81,10 +78,7 @@ describe('LinkedList', () => {
     })
 
     test('remove()', () => {
-        const list = new LinkedList();
-        list.push("1");
-        list.push("2");
-        list.push("3");
+        const list = new LinkedList('1', '2', '3');
         list.remove(0);
         expect(list.at(0)).toBe("2");
         list.remove(0);

@@ -2,12 +2,7 @@ import { LinkedList } from '@shared';
 
 console.log('-- program begin --');
 
-const list = new LinkedList<string>();
-
-list.push('First');
-list.push('Second');
-list.push('Third');
-
+const list = new LinkedList<string>('first', 'second', 'third');
 console.log( list.to_string() );
 console.log(`The second element is: ${list.at(1)}`)
 console.log(`removing it...`)
