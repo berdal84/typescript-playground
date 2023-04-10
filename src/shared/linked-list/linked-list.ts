@@ -23,20 +23,22 @@ export class LinkedList<T> {
      * @param data
      */
     push_back(...data: T[]) {
+        if( data.length === 0) return;
 
-        for (let each_data of data) {
-            const newItem = new LinkedItem<T>(each_data);
+        const new_items = LinkedList._make_chain(data);
 
-            if (this.root) {
-                this.last.next = newItem;
-            } else {
-                this.root = newItem;
-            }
+        // update length
+        this._length += new_items.length;
 
-            this.last = newItem;
+        // Connect existing items with new_items
+        if(this.last) {
+            this.last.next = new_items[0];
+        } else{
+            this.root = new_items[0];
         }
 
-        this._length += data.length;
+        // update last item
+        this.last = new_items[new_items.length-1];
     }
 
     /**
@@ -158,5 +160,23 @@ export class LinkedList<T> {
             current_item = current_item.next;
         }
         return result;
+    }
+
+    /**
+     * Create chained items from some data
+     * @param data
+     * @private
+     */
+    private static _make_chain<T>(data: T[]) {
+        // to track the last item
+        let previous_item: LinkedItem<T> = null;
+
+        // create one linked item per data
+        return data.map((each_data, index) => {
+            const new_item = new LinkedItem<T>(each_data);
+            if (previous_item) previous_item.next = new_item; // link previous item to this new_item
+            previous_item = new_item;
+            return new_item;
+        });
     }
 }
