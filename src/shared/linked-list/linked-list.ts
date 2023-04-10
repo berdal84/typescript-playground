@@ -33,7 +33,7 @@ export class LinkedList<T> {
         // Connect existing items with new_items
         if(this.last) {
             this.last.next = new_items[0];
-        } else{
+        } else if(!this.root) {
             this.root = new_items[0];
         }
 
