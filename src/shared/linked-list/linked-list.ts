@@ -1,4 +1,4 @@
-import { LinkedItem } from "./linked-item";
+import {LinkedItem} from "./linked-item";
 
 export class LinkedList<T> {
 
@@ -9,12 +9,12 @@ export class LinkedList<T> {
     // Cache length instead of having to count each time length() is called
     private _length;
 
-    constructor(...data: T[]){
+    constructor(...data: T[]) {
         this.root = null;
         this.last = null;
         this._length = 0;
 
-        if(data.length > 0) this.push_back(...data);
+        if (data.length > 0) this.push_back(...data);
     }
 
     /**
@@ -24,10 +24,10 @@ export class LinkedList<T> {
      */
     push_back(...data: T[]) {
 
-        for(let each_data of data) {
+        for (let each_data of data) {
             const newItem = new LinkedItem<T>(each_data);
 
-            if( this.root ) {
+            if (this.root) {
                 this.last.next = newItem;
             } else {
                 this.root = newItem;
@@ -49,7 +49,7 @@ export class LinkedList<T> {
     /**
      * Empty this linked list
      */
-    clear(){
+    clear() {
         delete this.root;
         this.root = null;
         this.last = null;
@@ -63,13 +63,13 @@ export class LinkedList<T> {
     to_string(): string {
 
         // early return when list is empty
-        if(this.is_empty()) return '[empty list]';
+        if (this.is_empty()) return '[empty list]';
 
         let result = '';
         let currentItem = this.root;
         result += '[';
         result += currentItem.data;
-        while( currentItem.next ) {
+        while (currentItem.next) {
             result += ' -> ';
             currentItem = currentItem.next;
             result += currentItem.data;
@@ -98,10 +98,10 @@ export class LinkedList<T> {
      * @param index
      */
     remove_at(index: number) {
-        if(this._length  === 0) throw new Error("Index  out of bounds")
+        if (this._length === 0) throw new Error("Index  out of bounds")
 
         // If deletes the first item
-        if(index === 0) {
+        if (index === 0) {
             const new_root = this.root.next;
             this.root.next = null;
             this.root = new_root;
@@ -114,11 +114,11 @@ export class LinkedList<T> {
         this._length--;
     }
 
-    private get_item(index: number):  LinkedItem<T> {
-        if( index < 0 || index >= this._length ) throw new Error(`Index out of bounds`)
+    private get_item(index: number): LinkedItem<T> {
+        if (index < 0 || index >= this._length) throw new Error(`Index out of bounds`)
         let cursor = 0;
         let item = this.root;
-        while( index != cursor) {
+        while (index != cursor) {
             item = item.next;
             cursor++;
         }
@@ -133,11 +133,11 @@ export class LinkedList<T> {
     insert_at(data: T, index: number) {
         const newItem = new LinkedItem(data);
         // Handle the specific case when we insert at the beginning of the list
-        if(index === 0) {
+        if (index === 0) {
             newItem.next = this.root;
             this.root = newItem;
         } else {
-            const previous = this.get_item(index-1);
+            const previous = this.get_item(index - 1);
             newItem.next = previous.next;
             previous.next = newItem;
         }
@@ -147,11 +147,11 @@ export class LinkedList<T> {
      * Convert the linked list to an arsray
      */
     to_array() {
-        if ( this._length  === 0) return [];
+        if (this._length === 0) return [];
 
         const result = [];
         let current_item = this.root;
-        while(current_item !== null) {
+        while (current_item !== null) {
             result.push(current_item.data);
             current_item = current_item.next;
         }
