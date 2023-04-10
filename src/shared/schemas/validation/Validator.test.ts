@@ -1,13 +1,16 @@
 import {describe, expect, test, jest} from '@jest/globals';
 import {MyType} from "./types/MyType";
 import {Validator} from "./Validator";
+import {resolve} from "path";
 
 describe('Validator', () => {
 
     let validator: Validator;
+    let rootDir:  string;
 
     beforeAll(() => {
-        validator = new Validator();
+        rootDir = resolve(__dirname, 'types');
+        validator = new Validator({ rootDir });
         // First call to generate_schema can be long
         // caching is on by default and any call to get_schema will be fast
         const schema = validator.generate_schema('MyType')
@@ -20,7 +23,8 @@ describe('Validator', () => {
 
     test('should generate a schema matching with a handmade schema', async () => {
         const schema = validator.get_schema('MyType')
-        expect(schema).toEqual(await import('./types/MyType.schema.json'));
+        const handmade_schema = await import( resolve(rootDir, 'MyType.schema.json') );
+        expect(schema).toEqual(handmade_schema);
     })
 
     test('should generate a schema rejecting an incompatible data', async () => {
