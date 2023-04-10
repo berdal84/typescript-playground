@@ -88,6 +88,8 @@ export class LinkedList<T> {
 
     /**
      * Get the nth element
+     * @deprecated accessing data from this method is O(n) not O(1).
+     *       This LinkedList implementation is not built for fast random access
      */
     at(index: number): T {
         return this.get_item(index).data;
