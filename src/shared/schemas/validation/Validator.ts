@@ -32,25 +32,30 @@ export class Validator {
     /**
      * Generate a schema from a given type name
      * @param type_name
-     * @param cache_enable
+     * @param auto_generate
      */
-    get_schema(type_name: string, cache_enable = true): Definition {
+    get_schema(type_name: string, auto_generate = true): Definition {
         // If cache is enable, try to load from it
-        if(cache_enable && this.cache.has(type_name)) return this.cache.get(type_name);
-
-        const schema = this.generate_schema(type_name);
-        if(cache_enable) this.cache.set(type_name, schema);
-
-        return schema;
+        if(this.cache.has(type_name)) return this.cache.get(type_name);
+        if(auto_generate) return this.generate_schema(type_name);
+        throw new Error(`Cannot find a schema for ${type_name}`);
     }
 
-    private generate_schema(type_name: string):  Definition {
+    /**
+     * Generate a schema from a type name
+     * @param type_name
+     */
+    generate_schema(type_name: string):  Definition {
+        if(this.cache.has(type_name)) console.warn(`A schema for ${type_name} exists and will be replaced`);
+
         // Generate schema
         const program = getProgramFromFiles(
             [resolve(__dirname, `${type_name}.ts`)],
             this.compilerOptions,
         );
-       return generateSchema(program, type_name, this.settings);
+        const schema = generateSchema(program, type_name, this.settings);
+        this.cache.set(type_name, schema);
+        return schema;
     }
 
     /**

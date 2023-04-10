@@ -8,8 +8,9 @@ describe('Validator', () => {
 
     beforeAll(() => {
         validator = new Validator();
-        // First call to get_schema can be long, caching is on by default and next call will reused the schema
-        const schema = validator.get_schema('MyType')
+        // First call to generate_schema can be long
+        // caching is on by default and any call to get_schema will be fast
+        const schema = validator.generate_schema('MyType')
         expect(schema).toBeDefined();
     })
 
