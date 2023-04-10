@@ -21,7 +21,7 @@ describe('LinkedList', () => {
 
     test('push() single item', () => {
         const list = new LinkedList();
-        list.push("1");
+        list.push_back("1");
         expect(list.length).toBe(1);
         expect(list.root.data).toBe("1");
         expect(list.last.data).toBe("1");
@@ -29,7 +29,7 @@ describe('LinkedList', () => {
 
     test('push() multi item', () => {
         const list = new LinkedList();
-        list.push("1", "2", "3");
+        list.push_back("1", "2", "3");
         expect(list.length).toBe(3);
         expect(list.root.data).toBe("1");
         expect(list.root.next.data).toBe("2");
@@ -44,7 +44,7 @@ describe('LinkedList', () => {
 
     test('to_string() for a single item list', () => {
         const list = new LinkedList();
-        list.push("root");
+        list.push_back("root");
         expect(list.to_string()).toBe("[root]")
     })
 
@@ -63,7 +63,7 @@ describe('LinkedList', () => {
     test('length()', () => {
         const list = new LinkedList();
         expect(list.length).toBe(0);
-        list.push('1', '2', '3');
+        list.push_back('1', '2', '3');
         expect(list.length).toBe(3);
         list.clear();
         expect(list.length).toBe(0);

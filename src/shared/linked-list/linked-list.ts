@@ -14,17 +14,18 @@ export class LinkedList<T> {
         this.last = null;
         this._length = 0;
 
-        if(data.length > 0) this.push(...data);
+        if(data.length > 0) this.push_back(...data);
     }
 
     /**
-     * Push a data in the linked list.
+     * Push data at the back of in the linked list.
      * The data will be stored in an item linked to the last item.
      * @param data
      */
-    push(...data: T[]) {
-        data.forEach(_data => {
-            const newItem = new LinkedItem<T>(_data);
+    push_back(...data: T[]) {
+
+        for(let each_data of data) {
+            const newItem = new LinkedItem<T>(each_data);
 
             if( this.root ) {
                 this.last.next = newItem;
@@ -33,7 +34,7 @@ export class LinkedList<T> {
             }
 
             this.last = newItem;
-        })
+        }
 
         this._length += data.length;
     }
