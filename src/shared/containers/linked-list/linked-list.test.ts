@@ -71,9 +71,9 @@ describe('LinkedList', () => {
 
     test('at()', () => {
         const list = new LinkedList('1', '2', '3');
-        expect(list.at(0)).toBe("1");
-        expect(list.at(1)).toBe("2");
-        expect(list.at(2)).toBe("3");
+        expect(list.at(0).data).toBe("1");
+        expect(list.at(1).data).toBe("2");
+        expect(list.at(2).data).toBe("3");
     })
 
     test('at() out of bounds', () => {
@@ -108,17 +108,17 @@ describe('LinkedList', () => {
         expect(list.root.next.next.next.data).toBe('4');
     })
 
-    test('to_array() empty', () => {
+    test('values() empty', () => {
         const list = new LinkedList();
-        expect(list.to_array()).toStrictEqual([]);
+        expect(list.values()).toStrictEqual([]);
     })
 
-    test('to_array()', () => {
+    test('values()', () => {
         const list = new LinkedList('1', '2', '3');
-        expect(list.to_array()).toStrictEqual(['1', '2', '3']);
+        expect(list.values()).toStrictEqual(['1', '2', '3']);
     })
 
-    test('iterates using values()', () => {
+    test('iterate on values()', () => {
         const data = ['1', '2', '3'];
         const list = new LinkedList(...data);
         let index = 0;
@@ -128,7 +128,7 @@ describe('LinkedList', () => {
         expect.assertions(data.length)
     })
 
-    test('iterates using entries()', () => {
+    test('iterate on entries()', () => {
         const data = ['1', '2', '3'];
         const list = new LinkedList(...data);
         let index = 0;

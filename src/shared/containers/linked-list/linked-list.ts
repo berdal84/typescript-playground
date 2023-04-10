@@ -83,6 +83,7 @@ export class LinkedList<T> {
 
     /**
      * Get the item count in this list
+     * Complexity is O(1)
      */
     get length(): number {
         return this._length;
@@ -90,15 +91,22 @@ export class LinkedList<T> {
 
     /**
      * Get the nth element
-     * @deprecated accessing data from this method is O(n) not O(1).
-     *       This LinkedList implementation is not built for fast random access
+     * Complexity is O(n).
      */
-    at(index: number): T {
-        return this.get_item(index).data;
+    at(index: number): LinkedItem<T> {
+        if (index < 0 || index >= this._length) throw new Error(`Index out of bounds`)
+        let cursor = 0;
+        let item = this.root;
+        while (index != cursor) {
+            item = item.next;
+            cursor++;
+        }
+        return item;
     }
 
     /**
      * Remove the nth element
+     * Complexity is O(n)
      * @param index
      */
     remove_at(index: number) {
@@ -111,22 +119,11 @@ export class LinkedList<T> {
             this.root = new_root;
         } else {
             // if deletes any other item
-            const item_before = this.get_item(index - 1);
+            const item_before = this.at(index - 1);
             const item_to_delete = item_before.next;
             item_before.next = item_to_delete.next;
         }
         this._length--;
-    }
-
-    private get_item(index: number): LinkedItem<T> {
-        if (index < 0 || index >= this._length) throw new Error(`Index out of bounds`)
-        let cursor = 0;
-        let item = this.root;
-        while (index != cursor) {
-            item = item.next;
-            cursor++;
-        }
-        return item;
     }
 
     /**
@@ -141,16 +138,16 @@ export class LinkedList<T> {
             newItem.next = this.root;
             this.root = newItem;
         } else {
-            const previous = this.get_item(index - 1);
+            const previous = this.at(index - 1);
             newItem.next = previous.next;
             previous.next = newItem;
         }
     }
 
     /**
-     * Convert the linked list to an arsray
+     * get an iterable array of linked list data
      */
-    to_array() {
+    values(): Iterable<T> {
         if (this._length === 0) return [];
 
         const result = new Array<T>(this._length);
@@ -162,13 +159,6 @@ export class LinkedList<T> {
             current_index++;
         }
         return result;
-    }
-
-    /**
-     * get an iterable array of linked list data
-     */
-    values(): Iterable<T> {
-        return this.to_array();
     }
 
     /**
