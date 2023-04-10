@@ -163,6 +163,30 @@ export class LinkedList<T> {
     }
 
     /**
+     * get an iterable array of linked list data
+     */
+    values(): Iterable<T> {
+        return this.to_array();
+    }
+
+    /**
+     * get an iterable array of linked list data
+     */
+    entries(): Iterable<LinkedItem<T>> {
+        if (this._length === 0) return [];
+
+        const result = new Array<LinkedItem<T>>(this._length);
+        let current_item = this.root;
+        let current_index = 0;
+        while (current_index < this._length) {
+            result[current_index] = current_item;
+            current_item = current_item.next;
+            current_index++;
+        }
+        return result;
+    }
+
+    /**
      * Create chained items from some data
      * @param data
      * @private

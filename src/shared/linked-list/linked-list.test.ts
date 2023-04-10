@@ -117,4 +117,24 @@ describe('LinkedList', () => {
         const list = new LinkedList('1', '2', '3');
         expect(list.to_array()).toStrictEqual(['1', '2', '3']);
     })
+
+    test('iterates using values()', () => {
+        const data = ['1', '2', '3'];
+        const list = new LinkedList(...data);
+        let index = 0;
+        for(let each_data of list.values()) {
+            expect(each_data).toBe(data[index++])
+        }
+        expect.assertions(data.length)
+    })
+
+    test('iterates using entries()', () => {
+        const data = ['1', '2', '3'];
+        const list = new LinkedList(...data);
+        let index = 0;
+        for(let each_item of list.entries()) {
+            expect(each_item.data).toBe(data[index++])
+        }
+        expect.assertions(data.length)
+    })
 })
