@@ -153,11 +153,13 @@ export class LinkedList<T> {
     to_array() {
         if (this._length === 0) return [];
 
-        const result = [];
+        const result = new Array<T>(this._length);
         let current_item = this.root;
-        while (current_item !== null) {
-            result.push(current_item.data);
+        let current_index = 0;
+        while (current_index < this._length) {
+            result[current_index] = current_item.data;
             current_item = current_item.next;
+            current_index++;
         }
         return result;
     }
