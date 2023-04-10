@@ -5,6 +5,7 @@
         "module": "CommonJS",
         "declaration": true,
         "outDir": "./dist",
+        "experimentalDecorators": true,
         "typeRoots": [
             "./node_modules/@types"
         ],

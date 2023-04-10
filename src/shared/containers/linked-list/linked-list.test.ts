@@ -1,5 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
-import {LinkedList} from '.'
+import {LinkedList} from './index'
 import exp = require("constants");
 
 describe('LinkedList', () => {
