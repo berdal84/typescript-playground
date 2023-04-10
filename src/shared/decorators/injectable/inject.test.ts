@@ -1,46 +1,13 @@
 import {describe, expect, test, jest} from '@jest/globals';
-import {Inject, Service, OnUpdate, IService, OnInit} from '.'
+import {Inject} from './inject.decorator'
+import {ILogManager} from "./logger.interface";
+import {IFileManager} from "./file.interface";
+import {FileService} from "./file.service";
+import {LogService} from "./logger.service";
 
 describe('injectable', () => {
 
     test('@Inject', () => {
-
-        // prepare
-        interface IFileManager {
-            open(path: string): File;
-            close(file: File): void;
-            save(file: File): void;
-        }
-
-        @Service('files')
-        class FileService implements OnInit, IFileManager {
-            init(): void {}
-            close(file: File): void {}
-            open(path: string): File {
-                return undefined;
-            }
-            save(file: File): void {}
-        }
-
-        interface ILogManager {
-            msg(...args: any[]): void;
-            debug(...args: any[]): void;
-            warn(...args: any[]): void;
-            err(...args: any[]): void;
-        }
-
-        @Service('logger')
-        class LogService implements ILogManager, OnInit {
-            debug = console.debug;
-            err = console.error;
-            msg = console.log;
-            warn = console.warn;
-
-            init(): void {
-                this.debug('Logger is ready')
-            }
-        }
-
         /* class using two services without explicitly giving a class or an instance */
         class ClassWithInjectedServices {
             @Inject('logger') logger: ILogManager;

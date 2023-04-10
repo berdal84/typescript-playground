@@ -1,3 +1,3 @@
-export * from './inject'
-export * from './injectable'
-export * from './service'
+export * from './inject.decorator'
+export * from './injectable.decorator'
+export * from './service.decorator'
