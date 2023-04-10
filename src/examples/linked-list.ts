@@ -2,12 +2,12 @@ import { LinkedList } from '@shared';
 
 console.log('-- program begin --');
 
-const ll = new LinkedList<string>();
+const list = new LinkedList<string>();
 
-ll.push('First item');
-ll.push('Second');
-ll.push('Third');
+list.push('First');
+list.push('Second');
+list.push('Third');
 
-console.log( ll.to_string() );
+console.log( list.to_string() );
 
 console.log('-- program end --');
