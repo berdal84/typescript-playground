@@ -46,7 +46,6 @@ export class Validator {
      * @param type_name
      */
     generate_schema(type_name: string):  Definition {
-        if(this.cache.has(type_name)) console.warn(`A schema for ${type_name} exists and will be replaced`);
 
         // Generate schema
         const program = getProgramFromFiles(
@@ -54,7 +53,11 @@ export class Validator {
             this.compilerOptions,
         );
         const schema = generateSchema(program, type_name, this.settings);
+
+        // store in cache
+        if(this.cache.has(type_name)) console.warn(`A schema for ${type_name} exists and will be replaced`);
         this.cache.set(type_name, schema);
+
         return schema;
     }
 
