@@ -1,5 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import { LinkedList } from '.'
+import exp = require("constants");
 
 describe('LinkedList', () => {
 
@@ -77,12 +78,30 @@ describe('LinkedList', () => {
         expect(() => list.at(3)).toThrow();
     })
 
-    test('remove()', () => {
+    test('remove() first item', () => {
         const list = new LinkedList('1', '2', '3');
         list.remove(0);
+        expect(list.length).toBe(2);
         expect(list.at(0)).toBe("2");
-        list.remove(0);
-        list.remove(0);
-        expect(() => list.remove(0)).toThrow();
+    })
+
+    test('remove() last item', () => {
+        const list = new LinkedList('1', '2', '3');
+        list.remove(2);
+        expect(list.length).toBe(2);
+    })
+
+    test('remove() out of bounds', () => {
+        const list = new LinkedList('1', '2', '3');
+        expect(()=>list.remove(-1)).toThrow();
+        expect(()=>list.remove(3)).toThrow();
+    })
+
+    test('insert_at()', ()  => {
+        const list =  new  LinkedList('1', '2',  '4', '5');
+        list.insert_at('3', 2);
+        expect(list.at(2)).toBe('3');
+        expect(list.at(3)).toBe('4');
+
     })
 })

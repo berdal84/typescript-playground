@@ -104,13 +104,13 @@ export class LinkedList<T> {
             const new_root = this.root.next;
             this.root.next = null;
             this.root = new_root;
-            return;
+        } else {
+            // if deletes any other item
+            const item_before = this.get_item(index - 1);
+            const item_to_delete = item_before.next;
+            item_before.next = item_to_delete.next;
         }
-
-        // if deletes any other item
-        const item_before = this.get_item(index-1);
-        const item_to_delete = item_before.next;
-        item_before.next=  item_to_delete.next;
+        this._length--;
     }
 
     private get_item(index: number):  LinkedItem<T> {
@@ -122,5 +122,23 @@ export class LinkedList<T> {
             cursor++;
         }
         return item;
+    }
+
+    /**
+     * Insert a data at a given index
+     * @param data
+     * @param index
+     */
+    insert_at(data: T, index: number) {
+        const newItem = new LinkedItem(data);
+        // Handle the specific case when we insert at the beginning of the list
+        if(index === 0) {
+            newItem.next = this.root;
+            this.root = newItem;
+        } else {
+            const previous = this.get_item(index-1);
+            newItem.next = previous.next;
+            previous.next = newItem;
+        }
     }
 }
