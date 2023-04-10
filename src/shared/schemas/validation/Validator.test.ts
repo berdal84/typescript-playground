@@ -1,5 +1,5 @@
 import {describe, expect, test, jest} from '@jest/globals';
-import {MyType} from "./MyType";
+import {MyType} from "./types/MyType";
 import {Validator} from "./Validator";
 
 describe('Validator', () => {
@@ -14,9 +14,13 @@ describe('Validator', () => {
         expect(schema).toBeDefined();
     })
 
+    test('should throw getting a schema for an unexisting file', async () => {
+        expect(() => validator.get_schema('NotExisting')).toThrow();
+    })
+
     test('should generate a schema matching with a handmade schema', async () => {
         const schema = validator.get_schema('MyType')
-        expect(schema).toEqual(await import('./MyType.schema.json'));
+        expect(schema).toEqual(await import('./types/MyType.schema.json'));
     })
 
     test('should generate a schema rejecting an incompatible data', async () => {

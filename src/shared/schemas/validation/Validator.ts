@@ -1,6 +1,7 @@
 import {resolve} from "path";
 import {Definition,  generateSchema, getProgramFromFiles, PartialArgs, CompilerOptions} from "typescript-json-schema";
 import Ajv, {Options as AjvOptions} from "ajv";
+import * as fs from "fs";
 
 /**
  * Helper class to generate json schemas (using TJS) and validate data (using Ajv)
@@ -11,13 +12,16 @@ export class Validator {
     private ajv: Ajv;
     /** cache for generated schemas */
     private cache: Map<string, Definition>;
+    /** types root directory */
+    private root_dir: string;
 
-    constructor(options: Partial<{ ajv: AjvOptions}> = {}) {
+    constructor(options: Partial<{ ajv: AjvOptions, rootDir: string}> = {}) {
         this.cache = new Map<string, Definition>();
         this.ajv = new Ajv( {
             allowUnionTypes: true,
             ...options.ajv
         });
+        this.root_dir = options.rootDir ?? resolve(__dirname, "types")
     }
 
     /**
@@ -29,7 +33,7 @@ export class Validator {
         // Try to load from cache
         if(this.cache.has(type_name)) return this.cache.get(type_name);
         // throws if autogenerate is off
-        if(!auto_generate) throw new Error(`Cannot find a schema for ${type_name}`);
+        if(!auto_generate) throw new Error(`No schema found for ${type_name}. Turn on  auto_generate or call generate_schema()`);
         // generate schema
         return this.generate_schema(type_name);
     }
@@ -40,9 +44,13 @@ export class Validator {
      */
     generate_schema(type_name: string):  Definition {
 
+        const file_path = resolve(this.root_dir ,`${type_name}.ts`);
+
+        if(!fs.existsSync(file_path)) throw new Error(`Unable to generate a schema for ${type_name}.\nFile not found: ${file_path}\nTypes should be placed in ${this.root_dir}`)
+
         // Generate schema
         const program = getProgramFromFiles(
-            [resolve(__dirname, `${type_name}.ts`)],
+            [file_path],
             {
                 strictNullChecks: true,
             },
