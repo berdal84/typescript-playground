@@ -1,5 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
-import { LinkedList } from './linked-list'
+import { LinkedList } from '.'
 
 describe('LinkedList', () => {
 
@@ -66,5 +66,17 @@ describe('LinkedList', () => {
         expect(list.length).toBe(3);
         list.clear();
         expect(list.length).toBe(0);
+    })
+
+    test('at()', () => {
+        const list = new LinkedList();
+        list.push("1");
+        list.push("2");
+        list.push("3");
+        expect(list.at(0)).toBe("1");
+        expect(list.at(1)).toBe("2");
+        expect(list.at(2)).toBe("3");
+        expect(() => list.at(-1)).toThrow();
+        expect(() => list.at(3)).toThrow();
     })
 })

@@ -1,11 +1,9 @@
-import type {Config} from 'jest';
+import type { JestConfigWithTsJest } from 'ts-jest';
 
-const config: Config = {
+const config: JestConfigWithTsJest = {
   preset: 'ts-jest',
-  transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
-  },
   testEnvironment: 'node',
   verbose: true,
 };
 export default config;
+

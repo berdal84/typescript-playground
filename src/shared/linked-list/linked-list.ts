@@ -1,30 +1,11 @@
-
-/**
- * This is an exercise.
- * 
- * Simple piece of code to implement a Linked list in typescript
- */
-
-/**
- * The items able to carry a data and be chained
- */
-export class Item<T>{
-
-    next: Item<T>;
-    data: T;
-
-    constructor(_data: T){
-        this.data = _data;
-        this.next = null;
-    }
-}
+import { LinkedItem } from "./linked-item";
 
 export class LinkedList<T> {
 
     // Ref to the first item
-    root: Item<T>;
+    root: LinkedItem<T>;
     // Ref to the last item
-    last: Item<T>;
+    last: LinkedItem<T>;
     // Cache length instead of having to count each time length() is called
     private _length;
 
@@ -41,7 +22,7 @@ export class LinkedList<T> {
      */
     push(...data: T[]) {
         data.forEach(_data => {
-            const newItem = new Item<T>(_data);
+            const newItem = new LinkedItem<T>(_data);
 
             if( this.root ) {
                 this.last.next = newItem;
@@ -102,4 +83,17 @@ export class LinkedList<T> {
         return this._length;
     }
 
+    /**
+     * Get the nth element
+     */
+    at(index: number): T {
+        if( index < 0 || index >= this._length ) throw new Error(`Index out of bounds`)
+        let cursor = 0;
+        let item = this.root;
+        while( index != cursor) {
+            item = item.next;
+            cursor++;
+        }
+        return item.data;
+    }
 }
