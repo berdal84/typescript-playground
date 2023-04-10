@@ -3,9 +3,8 @@
  */
 import {add_provider} from "./provider";
 
-function Injectable<T extends { new(...args: any[]): {} }>(constructor: T) {
-    console.log(`${constructor.name} is now injectable`);
-    add_provider(constructor.name, constructor);
+function Injectable<T extends { new(...args: any[]): {} }>(constructor: T, token?: string) {
+    add_provider(token ?? constructor.name, constructor);
     return constructor;
 }
 

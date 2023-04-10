@@ -21,6 +21,6 @@ export function provide<T>(token: string): T {
 
     // Create a new instance
     const factory = providers.get(token);
-    if(!factory) throw new Error(`Unable to find a factory for ${token}`)
+    if(!factory) throw new Error(`Unable to find a factory for ${token}. Did you forget to declare it using @Service('${token}')?`)
     return new factory();
 }
