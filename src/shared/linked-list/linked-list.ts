@@ -97,7 +97,7 @@ export class LinkedList<T> {
      * Remove the nth element
      * @param index
      */
-    remove(index: number) {
+    remove_at(index: number) {
         if(this._length  === 0) throw new Error("Index  out of bounds")
 
         // If deletes the first item

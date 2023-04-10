@@ -80,21 +80,21 @@ describe('LinkedList', () => {
 
     test('remove() first item', () => {
         const list = new LinkedList('1', '2', '3');
-        list.remove(0);
+        list.remove_at(0);
         expect(list.length).toBe(2);
         expect(list.at(0)).toBe("2");
     })
 
     test('remove() last item', () => {
         const list = new LinkedList('1', '2', '3');
-        list.remove(2);
+        list.remove_at(2);
         expect(list.length).toBe(2);
     })
 
     test('remove() out of bounds', () => {
         const list = new LinkedList('1', '2', '3');
-        expect(()=>list.remove(-1)).toThrow();
-        expect(()=>list.remove(3)).toThrow();
+        expect(()=>list.remove_at(-1)).toThrow();
+        expect(()=>list.remove_at(3)).toThrow();
     })
 
     test('insert_at()', ()  => {
