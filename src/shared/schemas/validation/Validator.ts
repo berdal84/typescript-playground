@@ -35,15 +35,17 @@ export class Validator {
      * @param auto_generate
      */
     get_schema(type_name: string, auto_generate = true): Definition {
-        // If cache is enable, try to load from it
+        // Try to load from cache
         if(this.cache.has(type_name)) return this.cache.get(type_name);
-        if(auto_generate) return this.generate_schema(type_name);
-        throw new Error(`Cannot find a schema for ${type_name}`);
+        // throws if autogenerate is off
+        if(!auto_generate) throw new Error(`Cannot find a schema for ${type_name}`);
+        // generate schema
+        return this.generate_schema(type_name);
     }
 
     /**
      * Generate a schema from a type name
-     * @param type_name
+     * @param type_name should match with filename with no extension.
      */
     generate_schema(type_name: string):  Definition {
 
@@ -54,8 +56,10 @@ export class Validator {
         );
         const schema = generateSchema(program, type_name, this.settings);
 
-        // store in cache
+        //  warns if cache entry already exists
         if(this.cache.has(type_name)) console.warn(`A schema for ${type_name} exists and will be replaced`);
+
+        // store in cache
         this.cache.set(type_name, schema);
 
         return schema;
