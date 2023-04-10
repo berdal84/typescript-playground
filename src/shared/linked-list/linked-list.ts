@@ -87,6 +87,31 @@ export class LinkedList<T> {
      * Get the nth element
      */
     at(index: number): T {
+        return this.get_item(index).data;
+    }
+
+    /**
+     * Remove the nth element
+     * @param index
+     */
+    remove(index: number) {
+        if(this._length  === 0) throw new Error("Index  out of bounds")
+
+        // If deletes the first item
+        if(index === 0) {
+            const new_root = this.root.next;
+            this.root.next = null;
+            this.root = new_root;
+            return;
+        }
+
+        // if deletes any other item
+        const item_before = this.get_item(index-1);
+        const item_to_delete = item_before.next;
+        item_before.next=  item_to_delete.next;
+    }
+
+    private get_item(index: number):  LinkedItem<T> {
         if( index < 0 || index >= this._length ) throw new Error(`Index out of bounds`)
         let cursor = 0;
         let item = this.root;
@@ -94,6 +119,6 @@ export class LinkedList<T> {
             item = item.next;
             cursor++;
         }
-        return item.data;
+        return item;
     }
 }

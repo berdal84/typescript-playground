@@ -79,4 +79,16 @@ describe('LinkedList', () => {
         expect(() => list.at(-1)).toThrow();
         expect(() => list.at(3)).toThrow();
     })
+
+    test('remove()', () => {
+        const list = new LinkedList();
+        list.push("1");
+        list.push("2");
+        list.push("3");
+        list.remove(0);
+        expect(list.at(0)).toBe("2");
+        list.remove(0);
+        list.remove(0);
+        expect(() => list.remove(0)).toThrow();
+    })
 })
