@@ -6,32 +6,23 @@ import Ajv, {Options as AjvOptions} from "ajv";
  * Helper class to generate json schemas (using TJS) and validate data (using Ajv)
  */
 export class Validator {
-    private settings: PartialArgs;
-    private compilerOptions: CompilerOptions;
+
+    /** json schema validation */
     private ajv: Ajv;
+    /** cache for generated schemas */
     private cache: Map<string, Definition>;
 
     constructor(options: Partial<{ ajv: AjvOptions}> = {}) {
-
         this.cache = new Map<string, Definition>();
-
         this.ajv = new Ajv( {
             allowUnionTypes: true,
             ...options.ajv
         });
-
-        this.settings = {
-            required: true,
-        };
-
-        this.compilerOptions = {
-            strictNullChecks: true,
-        };
     }
 
     /**
      * Generate a schema from a given type name
-     * @param type_name
+     * @param type_name should match with filename with no extension. File must be in same directory.
      * @param auto_generate
      */
     get_schema(type_name: string, auto_generate = true): Definition {
@@ -52,9 +43,13 @@ export class Validator {
         // Generate schema
         const program = getProgramFromFiles(
             [resolve(__dirname, `${type_name}.ts`)],
-            this.compilerOptions,
+            {
+                strictNullChecks: true,
+            },
         );
-        const schema = generateSchema(program, type_name, this.settings);
+        const schema = generateSchema(program, type_name, {
+            required: true,
+        });
 
         //  warns if cache entry already exists
         if(this.cache.has(type_name)) console.warn(`A schema for ${type_name} exists and will be replaced`);
