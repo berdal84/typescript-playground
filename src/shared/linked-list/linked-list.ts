@@ -141,4 +141,19 @@ export class LinkedList<T> {
             previous.next = newItem;
         }
     }
+
+    /**
+     * Convert the linked list to an arsray
+     */
+    to_array() {
+        if ( this._length  === 0) return [];
+
+        const result = [];
+        let current_item = this.root;
+        while(current_item !== null) {
+            result.push(current_item.data);
+            current_item = current_item.next;
+        }
+        return result;
+    }
 }

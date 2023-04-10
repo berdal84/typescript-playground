@@ -102,6 +102,15 @@ describe('LinkedList', () => {
         list.insert_at('3', 2);
         expect(list.at(2)).toBe('3');
         expect(list.at(3)).toBe('4');
+    })
 
+    test('to_array() empty', () => {
+        const list = new LinkedList();
+        expect(list.to_array()).toStrictEqual([]);
+    })
+
+    test('to_array()', () => {
+        const list = new LinkedList('1', '2', '3');
+        expect(list.to_array()).toStrictEqual(['1', '2', '3']);
     })
 })
