@@ -8,7 +8,8 @@
     "watch": "npx tsc --watch",
     "all-examples": "npm run ll-example",
     "ll-example": "npx ts-node src/examples/linked-list",
-    "test": "npx jest --coverage",
+    "test": "npx jest",
+    "test:cov": "npx jest --coverage",
     "dev": "npx jest --watch"
   },
   "repository": {
