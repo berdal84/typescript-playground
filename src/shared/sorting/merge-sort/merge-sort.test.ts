@@ -1,6 +1,7 @@
 import {describe, expect, test, jest} from '@jest/globals';
 import {merge_sort} from "./merge-sort";
 import {shuffle} from "./shuffle";
+import {range} from "./range";
 
 describe('merge_sort', () => {
 
@@ -39,21 +40,13 @@ describe('merge_sort', () => {
     })
 
     test('should sort 2048-sized arrays (positive nb)', () => {
-        const ordered = new Array(2048);
-        ordered.fill(0);
-        ordered.forEach( ((value, index, array) => {
-            array[index] = index;
-        }))
+        const ordered = range(1, 2048)
         const unordered = shuffle([...ordered]);
         expect(merge_sort(unordered)).toStrictEqual(ordered);
     })
 
-    test('should sort 2048-sized arrays (negative nb)', () => {
-        const ordered = new Array(2048);
-        ordered.fill(0);
-        ordered.forEach( ((value, index, array) => {
-            array[index] = - array.length + index + 1;
-        }))
+    test('should sort 2048-sized arrays (both negative an positive nb)', () => {
+        const ordered = range(-1023, 1024);
         const unordered = shuffle([...ordered]);
         expect(merge_sort(unordered)).toStrictEqual(ordered);
     })
