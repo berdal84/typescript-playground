@@ -56,21 +56,23 @@ function split<T>(arr: T[]): [T[], T[]] {
  * Merge two sorted arrays into a single sorted array
  */
 function merge<T>(left: T[], right: T[]): T[] {
-    const result = new Array<T>();
+    const sorted_result = new Array<T>();
 
     // create two cursors to advance in both arrays
     let left_cursor = 0, right_cursor = 0;
     // while we didn't reach the end of each arrays...
-    while( left_cursor < left.length || right_cursor < right.length) {
-        // compare the numbers pointed on the left and on the right
-        // take the smallest and advance the cursor accordingly
+    while( left_cursor !== left.length || right_cursor !== right.length) {
+        // if the right cursor reached the end of the array,
+        // or if the left item is not greater that the right
         if( right_cursor === right.length || left[left_cursor] <= right[right_cursor]) {
-            result.push(left[left_cursor]);
+            // push the left item to the sorted array
+            sorted_result.push(left[left_cursor]);
             left_cursor++;
         } else {
-            result.push(right[right_cursor]);
+            // push the right item to the sorted array
+            sorted_result.push(right[right_cursor]);
             right_cursor++;
         }
     }
-    return result;
+    return sorted_result;
 }
