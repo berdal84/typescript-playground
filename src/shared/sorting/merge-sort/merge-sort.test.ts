@@ -50,4 +50,8 @@ describe('merge_sort', () => {
         const unordered = shuffle([...ordered]);
         expect(merge_sort(unordered)).toStrictEqual(ordered);
     })
+
+    test('should sort array including duplicates', () => {
+        expect(merge_sort([2,2,3,1,1,1,3,3,3,0,0,0])).toStrictEqual([0,0,0,1,1,1,2,2,3,3,3,3])
+    })
 })
