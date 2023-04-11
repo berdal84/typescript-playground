@@ -4,8 +4,6 @@
  * @param arr an array to sort
  * @returns a sorted array (may be the same reference if array is empty or small and sorted)
  */
-import {expect} from "@jest/globals";
-
 export function merge_sort<T>(arr: T[]): T[] {
     // Check the argument, this function is the public one and
     // could be called from JS
@@ -48,7 +46,6 @@ function split<T>(arr: T[]): [T[], T[]] {
     const index_to_cut = Math.ceil( arr.length / 2 );
     const left = arr.slice(0, index_to_cut);
     const right = arr.slice(index_to_cut);
-    expect([...left, ...right]).toStrictEqual(arr);
     return [left, right];
 }
 
