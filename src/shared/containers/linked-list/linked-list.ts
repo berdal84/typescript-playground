@@ -10,11 +10,16 @@ export class LinkedList<T> {
     private _length;
 
     constructor(...data: T[]) {
-        this.root = null;
-        this.last = null;
-        this._length = 0;
+        const chain = LinkedList._make_chain(data);
+        this._length = chain.length;
 
-        if (data.length > 0) this.push_back(...data);
+        if (chain.length > 0) {
+            this.root = chain[0];
+            this.last = chain[chain.length-1];
+        } else {
+            this.root = null;
+            this.last = null;
+        }
     }
 
     /**
@@ -23,7 +28,7 @@ export class LinkedList<T> {
      * @param data
      */
     push_back(...data: T[]) {
-        if( data.length === 0) return;
+        if (data.length === 0) return;
 
         const new_items = LinkedList._make_chain(data);
 
@@ -31,14 +36,14 @@ export class LinkedList<T> {
         this._length += new_items.length;
 
         // Connect existing items with new_items
-        if(this.last) {
+        if (this.last) {
             this.last.next = new_items[0];
-        } else if(!this.root) {
+        } else if (!this.root) {
             this.root = new_items[0];
         }
 
         // update last item
-        this.last = new_items[new_items.length-1];
+        this.last = new_items[new_items.length - 1];
     }
 
     /**
@@ -110,7 +115,8 @@ export class LinkedList<T> {
      * @param index
      */
     remove_at(index: number) {
-        if (this._length === 0) throw new Error("Index  out of bounds")
+        if (index < 0) throw new Error("negative index are not allowed")
+        if (index >= this._length) throw new Error("Index  out of bounds")
 
         // If deletes the first item
         if (index === 0) {
@@ -132,6 +138,8 @@ export class LinkedList<T> {
      * @param index
      */
     insert_at(data: T, index: number) {
+        if (index < 0) throw new Error("negative index are not allowed")
+        if (index >= this._length) throw new Error("index out of bounds")
         const newItem = new LinkedItem(data);
         // Handle the specific case when we insert at the beginning of the list
         if (index === 0) {

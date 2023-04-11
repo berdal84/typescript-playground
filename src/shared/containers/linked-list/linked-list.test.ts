@@ -37,6 +37,26 @@ describe('LinkedList', () => {
         expect(list.last.data).toBe("3");
     })
 
+    test('push_back() twice', () => {
+        const list = new LinkedList();
+
+        list.push_back("1", "2");
+        const last = list.last;
+        expect(last.data).toBe("2");
+
+        list.push_back("3");
+        expect(list.last).not.toBe(last);
+        expect(list.last.data).toBe("3");
+    })
+
+    test('push_back() empty array', () => {
+        const list = new LinkedList();
+        list.push_back();
+        expect(list.length).toBe(0);
+        expect(list.root).toBe(null);
+        expect(list.last).toBe(null);
+    })
+
     test('to_string() for empty list', () => {
         const list = new LinkedList();
         expect(list.to_string()).toBe("[empty list]")
@@ -101,11 +121,30 @@ describe('LinkedList', () => {
         expect(() => list.remove_at(3)).toThrow();
     })
 
-    test('insert_at()', () => {
+    test('insert_at() in the middle', () => {
         const list = new LinkedList('1', '2', '4', '5');
         list.insert_at('3', 2);
         expect(list.root.next.next.data).toBe('3');
         expect(list.root.next.next.next.data).toBe('4');
+    })
+
+    test('insert_at() at index 0', () => {
+        const list = new LinkedList('1', '2', '4', '5');
+        list.insert_at('0', 0);
+        expect(list.root.data).toBe("0")
+    })
+
+    test('insert_at() at index length-1', () => {
+        const list = new LinkedList('1', '2', '4', '5');
+        list.insert_at('4.5', list.length - 1);
+        expect(list.last.data).toBe("5")
+    })
+
+    test('insert_at() out of bounds', () => {
+        const list = new LinkedList('1', '2', '4', '5');
+        expect( () => list.insert_at('fddsds', list.length) ).toThrow();
+        expect( () => list.insert_at('sdsd', list.length + 42) ).toThrow();
+        expect( () => list.insert_at('sdsd', -1) ).toThrow();
     })
 
     test('values() empty', () => {
@@ -136,5 +175,13 @@ describe('LinkedList', () => {
             expect(each_item.data).toBe(data[index++])
         }
         expect.assertions(data.length)
+    })
+
+    test('iterate on entries() with no items', () => {
+        const list = new LinkedList();
+        for(let each_item of list.entries()) {
+            expect(each_item.data).toBeDefined();
+        }
+        expect.assertions(0)
     })
 })
