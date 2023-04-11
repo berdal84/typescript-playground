@@ -5,5 +5,11 @@
  * @param arr
  */
 export function merge_sort<T>(arr: T[]): T[] {
-    return arr;
+    switch (arr.length) {
+        case 0:
+        case 1:
+            return arr;
+        default:
+            return arr;
+    }
 }
