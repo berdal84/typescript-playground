@@ -1,4 +1,4 @@
-import {LinkedList} from '@shared/containers/linked-list';
+import {LinkedList} from '../libs/containers/linked-list';
 
 console.log('-- program begin --');
 

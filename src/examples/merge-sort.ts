@@ -1,4 +1,4 @@
-import {merge_sort} from "@shared/sorting/merge-sort";
+import {merge_sort} from "../libs/sorting/merge-sort";
 
 const readline = require('readline').createInterface({
     input: process.stdin,

@@ -12,7 +12,7 @@
         ],
         "rootDir": ".",
         "paths": {
-            "@shared*": ["src/shared/*", "src/shared"]
+            "@libs*": ["src/libs/*", "src/libs"]
         }
     },
     "include": [
