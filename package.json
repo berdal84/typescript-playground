@@ -2,12 +2,17 @@
   "name": "typescript-playground",
   "version": "1.0.0",
   "description": "Various piece of code using Typescript language",
+  "engines": {
+    "node": "^18.15.0",
+    "npm": "9.5.0"
+  },
   "scripts": {
     "build": "npx tsc",
     "start": "npm run all-examples",
     "watch": "npx tsc --watch",
-    "all-examples": "npm run ll-example",
-    "ll-example": "npx ts-node src/examples/linked-list",
+    "all-examples": "npm run linked-list merge-sort",
+    "linked-list": "npx ts-node src/examples/linked-list",
+    "merge-sort": "npx ts-node src/examples/merge-sort",
     "test": "npx jest",
     "test:cov": "npx jest --coverage",
     "dev": "npx jest --watch"
