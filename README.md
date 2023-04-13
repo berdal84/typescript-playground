@@ -6,7 +6,7 @@ Typescript Playground
 ### Why?
 
 The main purpose of this repo is to have a ready to use repository to try things.
-I organized the code in categories under the `src/shared` folder and I implement unit tests for each of them.
+I organized the code in categories under the `src/libs` folder and I implement unit tests for each of them.
 
 ### Quick start
 
