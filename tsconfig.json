@@ -10,13 +10,16 @@
         "typeRoots": [
             "./node_modules/@types"
         ],
-        "rootDir": ".",
+        "baseUrl": ".",
         "paths": {
             "@libs*": ["src/libs/*", "src/libs"]
         }
     },
     "include": [
         "src"
+    ],
+    "exclude": [
+        "**/*.test.ts",
     ],
     "ts-node": {
         // Do not forget to `npm i -D tsconfig-paths`
