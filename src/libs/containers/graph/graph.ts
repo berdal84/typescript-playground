@@ -1,18 +1,18 @@
 /**
- * Simple object to wrap a data
+ * Simple object to wrap a data and connected edges
  */
-export type node<T = any> = {
-    data: T;
+export interface INode<Props = any> {
+    props: Props;
+    edge: IEdge[];
+    type?: string; // to differentiate nodes later
 }
 
 /**
  * Directed edge between two nodes, can hold data.
  */
-export type edge<T = any, E = undefined> = {
-    /** The two nodes connected by this edge */
-    node: [node<T>, node<T>];
-    /** Optional data to qualify this edge */
-    type: E;
+export interface IEdge<Props = any> {
+    node: [INode, INode];
+    props: Props;
 }
 
 /**
@@ -23,18 +23,20 @@ export type edge<T = any, E = undefined> = {
  *  - Write a traversal method/class (visitor? callback like in forEach and map?)
  *  - ...
  */
-export class Graph<T = any, E = undefined> {
-    private readonly _nodes: Set<node<T>>;
-    private readonly _edges: Set<edge<T, E>>;
+export class Graph<NodeProps extends Record<string, any>,
+    EdgeProps extends Record<string, any>> {
+
+    private readonly _nodes: Set<INode<NodeProps>>;
+    private readonly _edges: Set<IEdge<EdgeProps>>;
 
     constructor() {
-        this._nodes = new Set<node<T>>();
-        this._edges = new Set<edge<T, E>>();
+        this._nodes = new Set<INode<NodeProps>>();
+        this._edges = new Set<IEdge<EdgeProps>>();
     }
 
     is_empty(): boolean {
-        if(this._nodes.size === 0) {
-            if(this._edges.size !== 0) throw new Error("Incoherence, graph has no nodes but contains some edges");
+        if (this._nodes.size === 0) {
+            if (this._edges.size !== 0) throw new Error("Incoherence, graph has no nodes but contains some edges");
             return true;
         }
         return false;
@@ -43,16 +45,19 @@ export class Graph<T = any, E = undefined> {
     /**
      * Check if a given node is orphan.
      */
-    is_orphan(node: node<T>): boolean {
+    is_orphan(node: Node): boolean {
         throw new Error("Not implemented yet")
     }
 
     /**
      * Create a new node in the graph
-     * @param data to associate to the node
+     * @param props
      */
-    create_node(data: T): node<T> {
-        const node: node<T> = { data };
+    create_node(props: NodeProps): INode<NodeProps> {
+        const node: INode = {
+            props: props,
+            edge: []
+        };
         this._nodes.add(node);
         return node;
     }
@@ -61,11 +66,11 @@ export class Graph<T = any, E = undefined> {
      * Remove a node that belongs to this graph.
      * Any edge connected to it will be disconnected.
      */
-    remove_node(node: node<T>): void {
-        if(!this._nodes.has(node)) throw new Error(`The node ${JSON.stringify(node)} does not belong to this graph`)
+    remove_node(node: INode): void {
+        if (!this._nodes.has(node)) throw new Error(`The node ${JSON.stringify(node)} does not belong to this graph`)
         // disconnect any related edge
-        for(let edge of this._edges) {
-            if(edge.node[0] == node || edge.node[1] == node) this.disconnect(edge);
+        for (let edge of this._edges) {
+            if (edge.node[0] == node || edge.node[1] == node) this.disconnect(edge);
         }
         this._nodes.delete(node);
     }
@@ -75,17 +80,17 @@ export class Graph<T = any, E = undefined> {
      * The two nodes must belong to this graph.
      * Two node cannot have two directed edges (even with different data).
      */
-    connect(a: node<T>, b: node<T>, type: E): edge<T, E> {
-        if(!this._nodes.has(a)) throw new Error(`The node ${JSON.stringify(a)} does not belong to this graph`)
-        if(!this._nodes.has(b)) throw new Error(`The node ${JSON.stringify(b)} does not belong to this graph`)
+    connect(a: INode, b: INode, props: EdgeProps): IEdge<EdgeProps> {
+        if (!this._nodes.has(a)) throw new Error(`The node ${JSON.stringify(a)} does not belong to this graph`)
+        if (!this._nodes.has(b)) throw new Error(`The node ${JSON.stringify(b)} does not belong to this graph`)
         // Ensure this edge does not already exists
         // edge.type is not considered when checking for duplicates
-        for(let each_edge of this._edges) {
-            if(each_edge.node[0] == a && each_edge.node[1] == b) throw new Error(`An edge connected to the same nodes already exists ${JSON.stringify(each_edge)}`)
+        for (let each_edge of this._edges) {
+            if (each_edge.node[0] == a && each_edge.node[1] == b) throw new Error(`An edge connected to the same nodes already exists ${JSON.stringify(each_edge)}`)
         }
-        const edge: edge<T, E> = {
-            node: [a, b],
-            type
+        const edge: IEdge<EdgeProps> = {
+            props,
+            node: [a, b]
         }
         this._edges.add(edge);
         return edge;
@@ -95,8 +100,8 @@ export class Graph<T = any, E = undefined> {
      * Disconnect a given edge
      * @param edge an edge that should exist in the graph
      */
-    disconnect(edge: edge<T, E>): void {
-        if(!this._edges.has(edge)) throw new Error(`Unable to find this edge in the graph`)
+    disconnect(edge: IEdge): void {
+        if (!this._edges.has(edge)) throw new Error(`Unable to find this edge in the graph`)
         this._edges.delete(edge);
     }
 
@@ -104,7 +109,7 @@ export class Graph<T = any, E = undefined> {
      * Clear the graph (delete nodes, delete and disconnect all edges)
      */
     clear(): void {
-        this.edges.forEach( edge => this.disconnect(edge) );
+        this.edges.forEach(edge => this.disconnect(edge));
         this._edges.clear();
         this._nodes.clear();
     }
@@ -112,14 +117,14 @@ export class Graph<T = any, E = undefined> {
     /**
      * To iterate over all the edges
      */
-    get edges(): edge<T, E>[] {
+    get edges() {
         return [...this._edges];
     }
 
     /**
      * To iterate over all the nodes
      */
-    get nodes(): node<T>[] {
+    get nodes() {
         return [...this._nodes];
     }
 }

@@ -1,76 +1,78 @@
 import {describe, expect, test} from '@jest/globals';
-import {Graph} from "./graph";
+import {Graph, INode} from "./graph";
+import exp = require("constants");
 
 describe('Graph', () => {
 
+    type NodeProps = {
+        name: string;
+    }
+    type EdgeProps = {
+        nature: string;
+    };
+    let graph: Graph<NodeProps, EdgeProps>;
+
+    beforeEach( () =>  {
+        graph =  new Graph<NodeProps, EdgeProps>();
+    })
+
     test('constructor()', () => {
-        const graph = new Graph<string, string>();
         expect(graph.edges).toStrictEqual([]);
         expect(graph.nodes).toStrictEqual([]);
     })
 
     test('is_empty()', () => {
-        const graph = new Graph<string, string>();
         expect(graph.is_empty()).toBe(true);
     })
 
     test('create_node()', () => {
-        const graph = new Graph<string, string>();
-        graph.create_node("test");
+        graph.create_node({ name: "test" });
         expect(graph.is_empty()).toBe(false);
-        expect(graph.nodes).toStrictEqual([{data: "test"}]);
+        expect(graph.nodes[0].props.name).toStrictEqual("test");
     })
 
     test('remove_node()', () => {
-        const graph = new Graph<string, string>();
-        const a = graph.create_node("a");
+        const a = graph.create_node({ name: "a"});
         expect(graph.is_empty()).toBe(false);
         graph.remove_node(a);
         expect(graph.is_empty()).toBe(true);
     })
 
     test('connect()', () => {
-        const graph = new Graph<string, string>();
-        const a = graph.create_node("a");
-        const b = graph.create_node("b");
-        const edge = graph.connect(a, b, "edge");
+        const a = graph.create_node({ name: "a"});
+        const b = graph.create_node({ name: "b"});
+        const edge = graph.connect(a, b, { nature: "is parent"});
         expect(graph.is_empty()).toBe(false);
-        expect(graph.nodes).toStrictEqual([{data: "a"},{data: "b"}] satisfies typeof graph.nodes);
-        expect(graph.edges).toStrictEqual([{node: [{data: "a"},{data: "b"}], type: "edge"}] satisfies typeof graph.edges);
+        expect(graph.edges[0].props.nature).toBe("is parent")
     })
 
     test('connect() an unknown node', () => {
-        const graph = new Graph<string, string>();
-        const a = { data: "a"};
-        const b = graph.create_node("b");
-        expect( () => { graph.connect(a, b, "edge") }).toThrow();
+        const a: INode<NodeProps> = { edge: [], props: { name: "a"}};
+        const b = graph.create_node({name: "b"});
+        expect( () => { graph.connect(a, b, { nature: "ancestor" }) }).toThrow();
     })
 
     test('connect() two times the same nodes', () => {
-        const graph = new Graph<string, string>();
-        const a = graph.create_node("a");
-        const b = graph.create_node("b");
-        graph.connect(a, b, "edge");
-        expect( () => { graph.connect(a, b, "edge") }).toThrow();
+        const a = graph.create_node({ name: "a"});
+        const b = graph.create_node({ name: "b"});
+        graph.connect(a, b, { nature: "next"});
+        expect( () => { graph.connect(a, b, { nature: "next again"}) }).toThrow();
     })
 
     test('disconnect()', () => {
-        const graph = new Graph<string, string>();
-        const a = graph.create_node("a");
-        const b = graph.create_node("b");
-        const edge = graph.connect(a, b, "edge");
+        const a = graph.create_node({ name: "a" });
+        const b = graph.create_node({ name:  "b"});
+        const edge = graph.connect(a, b, { nature: "parent"});
         expect(graph.edges).not.toStrictEqual([]);
         graph.disconnect(edge);
-        expect(graph.nodes).toStrictEqual([{data: "a"},{data: "b"}] satisfies typeof graph.nodes);
         expect(graph.edges).toStrictEqual([]);
     })
 
     test('clear()', () => {
-        const graph = new Graph<string, string>();
-        const a = graph.create_node("a");
-        const b = graph.create_node("b");
-        const edge = graph.connect(a, b, "edge");
+        const a = graph.create_node({ name: "a"});
+        const b = graph.create_node({ name: "b"});
 
+        graph.connect(a, b, { nature: "edge" });
         graph.clear();
 
         expect(graph.nodes).toStrictEqual([]);
