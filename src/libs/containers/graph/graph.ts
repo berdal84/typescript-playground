@@ -45,8 +45,8 @@ export class Graph<NodeProps extends Record<string, any>,
     /**
      * Check if a given node is orphan.
      */
-    is_orphan(node: Node): boolean {
-        throw new Error("Not implemented yet")
+    is_orphan(node: INode): boolean {
+        return node.edge.length === 0;
     }
 
     /**

@@ -78,4 +78,11 @@ describe('Graph', () => {
         expect(graph.nodes).toStrictEqual([]);
         expect(graph.edges).toStrictEqual([]);
     })
+
+    test('is_orphan()', () => {
+        const orphan_node = graph.create_node({ name: 'Mr. Alone'});
+        expect(graph.is_orphan(orphan_node)).toBe(true);
+        orphan_node.edge.push({} as any);
+        expect(graph.is_orphan(orphan_node)).toBe(false);
+    })
 })
