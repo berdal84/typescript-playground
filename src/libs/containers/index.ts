@@ -1,2 +1,2 @@
 export * from './linked-list'
-export * from './graph'
+export * from './dgraph'

@@ -1,8 +1,8 @@
 import {describe, expect, test} from '@jest/globals';
-import {Graph, INode} from "./graph";
+import {DGraph, IVertex} from "./dgraph";
 import exp = require("constants");
 
-describe('Graph', () => {
+describe('DirectedGraph', () => {
 
     type NodeProps = {
         name: string;
@@ -10,15 +10,15 @@ describe('Graph', () => {
     type EdgeProps = {
         nature: string;
     };
-    let graph: Graph<NodeProps, EdgeProps>;
+    let graph: DGraph<NodeProps, EdgeProps>;
 
     beforeEach( () =>  {
-        graph =  new Graph<NodeProps, EdgeProps>();
+        graph =  new DGraph<NodeProps, EdgeProps>();
     })
 
     test('constructor()', () => {
         expect(graph.edges).toStrictEqual([]);
-        expect(graph.nodes).toStrictEqual([]);
+        expect(graph.vertex).toStrictEqual([]);
     })
 
     test('is_empty()', () => {
@@ -28,7 +28,7 @@ describe('Graph', () => {
     test('create_node()', () => {
         graph.create_node({ name: "test" });
         expect(graph.is_empty()).toBe(false);
-        expect(graph.nodes[0].props.name).toStrictEqual("test");
+        expect(graph.vertex[0].props.name).toStrictEqual("test");
     })
 
     test('remove_node()', () => {
@@ -46,8 +46,8 @@ describe('Graph', () => {
         expect(graph.edges[0].props.nature).toBe("is parent")
     })
 
-    test('connect() an unknown node', () => {
-        const a: INode<NodeProps> = { edge: [], props: { name: "a"}};
+    test('connect() an unknown vertex', () => {
+        const a: IVertex<NodeProps> = { edge: [], props: { name: "a"}};
         const b = graph.create_node({name: "b"});
         expect( () => { graph.connect(a, b, { nature: "ancestor" }) }).toThrow();
     })
@@ -75,7 +75,7 @@ describe('Graph', () => {
         graph.connect(a, b, { nature: "edge" });
         graph.clear();
 
-        expect(graph.nodes).toStrictEqual([]);
+        expect(graph.vertex).toStrictEqual([]);
         expect(graph.edges).toStrictEqual([]);
     })
 
