@@ -15,6 +15,10 @@ export interface IEdge<Props = any> {
     props: Props;
 }
 
+type RequiredEdgeProps = {
+    type: 'parent' | 'next'
+}
+
 /**
  * Directed Graph formed by nodes and edges holding data (resp. NodeProps and EdgeProps type)
  *
@@ -25,7 +29,7 @@ export interface IEdge<Props = any> {
  */
 export class DGraph<
     VertexProps extends Record<string, any>,
-    EdgeProps extends Record<string, any>> {
+    EdgeProps extends Record<string, any> & RequiredEdgeProps> {
 
     private readonly _vertex: Set<IVertex<VertexProps>>;
     private readonly _edges: Set<IEdge<EdgeProps>>;
@@ -138,7 +142,7 @@ export class DGraph<
      * @param edge_filter
      * @param iterations
      */
-    traverse(vertex: IVertex, edge_filter: (edge: IEdge) => boolean, iterations: number): IVertex | null {
+    traverse(vertex: IVertex, edge_filter: (edge: IEdge<EdgeProps>) => boolean, iterations: number): IVertex | null {
         let current_vertex = vertex;
         let result = null;
 

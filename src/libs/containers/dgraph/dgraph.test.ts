@@ -8,7 +8,7 @@ describe('DirectedGraph', () => {
         name: string;
     }
     type EdgeProps = {
-        type: string;
+        type: 'parent' | 'next';
     };
     let graph: DGraph<NodeProps, EdgeProps>;
 
@@ -41,22 +41,22 @@ describe('DirectedGraph', () => {
     test('connect()', () => {
         const a = graph.create_node({ name: "a"});
         const b = graph.create_node({ name: "b"});
-        const edge = graph.connect(a, b, { type: "is parent"});
+        const edge = graph.connect(a, b, { type: "parent"});
         expect(graph.is_empty()).toBe(false);
-        expect(graph.edges[0].props.type).toBe("is parent")
+        expect(graph.edges[0].props.type).toBe("parent")
     })
 
     test('connect() an unknown vertex', () => {
         const a: IVertex<NodeProps> = { edge: new Set<IEdge>(), props: { name: "a"}};
         const b = graph.create_node({name: "b"});
-        expect( () => { graph.connect(a, b, { type: "ancestor" }) }).toThrow();
+        expect( () => { graph.connect(a, b, { type: "next" }) }).toThrow();
     })
 
     test('connect() two times the same nodes', () => {
         const a = graph.create_node({ name: "a"});
         const b = graph.create_node({ name: "b"});
         graph.connect(a, b, { type: "next"});
-        expect( () => { graph.connect(a, b, { type: "next again"}) }).toThrow();
+        expect( () => { graph.connect(a, b, { type: "next"}) }).toThrow();
     })
 
     test('disconnect()', () => {
@@ -72,7 +72,7 @@ describe('DirectedGraph', () => {
         const a = graph.create_node({ name: "a"});
         const b = graph.create_node({ name: "b"});
 
-        graph.connect(a, b, { type: "edge" });
+        graph.connect(a, b, { type: "parent" });
         graph.clear();
 
         expect(graph.vertex).toStrictEqual([]);
@@ -90,7 +90,7 @@ describe('DirectedGraph', () => {
         const a = graph.create_node({ name: "a"});
         const b = graph.create_node({ name: "b"});
         graph.connect(a, b, { type: "next" });
-        const  get_next = (edge: IEdge) => edge.props.nature === 'next';
+        const  get_next = (edge: IEdge<EdgeProps>) => edge.props.type === 'next';
         expect(graph.traverse(a, get_next, 1)).toEqual(b);
         expect(graph.traverse(b, get_next, 1)).toEqual(null);
     })
@@ -103,7 +103,7 @@ describe('DirectedGraph', () => {
         graph.connect(a, b, { type: "next" });
         graph.connect(b, c, { type: "next" });
 
-        const  get_next = (edge: IEdge) => edge.props.nature === 'next';
+        const  get_next = (edge: IEdge<EdgeProps>) => edge.props.type === 'next';
 
         expect(graph.traverse(a, get_next, 2)).toEqual(c);
         expect(graph.traverse(b, get_next, 2)).toEqual(c);
