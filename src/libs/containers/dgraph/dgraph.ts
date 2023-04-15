@@ -3,7 +3,7 @@
  */
 export interface IVertex<Props = any> {
     props: Props;
-    edge: IEdge[];
+    edge: Set<IEdge>;
     type?: string; // to differentiate nodes later
 }
 
@@ -47,7 +47,7 @@ export class DGraph<
      * Check if a given vertex is orphan.
      */
     is_orphan(vertex: IVertex): boolean {
-        return vertex.edge.length === 0;
+        return vertex.edge.size === 0;
     }
 
     /**
@@ -57,7 +57,7 @@ export class DGraph<
     create_node(props: VertexProps): IVertex<VertexProps> {
         const vertex: IVertex = {
             props: props,
-            edge: []
+            edge: new Set<IEdge>()
         };
         this._vertex.add(vertex);
         return vertex;
@@ -81,19 +81,21 @@ export class DGraph<
      * The two nodes must belong to this graph.
      * Two vertex cannot have two directed edges (even with different data).
      */
-    connect(a: IVertex, b: IVertex, props: EdgeProps): IEdge<EdgeProps> {
-        if (!this._vertex.has(a)) throw new Error(`The vertex ${JSON.stringify(a)} does not belong to this graph`)
-        if (!this._vertex.has(b)) throw new Error(`The vertex ${JSON.stringify(b)} does not belong to this graph`)
+    connect(from: IVertex, to: IVertex, props: EdgeProps): IEdge<EdgeProps> {
+        if (!this._vertex.has(from)) throw new Error(`The vertex ${JSON.stringify(from)} does not belong to this graph`)
+        if (!this._vertex.has(to)) throw new Error(`The vertex ${JSON.stringify(to)} does not belong to this graph`)
         // Ensure this edge does not already exists
         // edge.type is not considered when checking for duplicates
         for (let each_edge of this._edges) {
-            if (each_edge.vertex[0] == a && each_edge.vertex[1] == b) throw new Error(`An edge connected to the same nodes already exists ${JSON.stringify(each_edge)}`)
+            if (each_edge.vertex[0] == from && each_edge.vertex[1] == to) throw new Error(`An edge connected to the same nodes already exists ${JSON.stringify(each_edge)}`)
         }
         const edge: IEdge<EdgeProps> = {
             props,
-            vertex: [a, b]
+            vertex: [from, to]
         }
         this._edges.add(edge);
+        from.edge.add(edge);
+        to.edge.add(edge)
         return edge;
     }
 
@@ -104,6 +106,7 @@ export class DGraph<
     disconnect(edge: IEdge): void {
         if (!this._edges.has(edge)) throw new Error(`Unable to find this edge in the graph`)
         this._edges.delete(edge);
+        edge.vertex.forEach( vertex => vertex.edge.delete(edge))
     }
 
     /**
@@ -127,5 +130,29 @@ export class DGraph<
      */
     get vertex() {
         return [...this._vertex];
+    }
+
+    /**
+     * Traverse the graph from a given vertex and following conditions (edge_filter)
+     * @param vertex
+     * @param edge_filter
+     * @param iterations
+     */
+    traverse(vertex: IVertex, edge_filter: (edge: IEdge) => boolean, iterations: number): IVertex | null {
+        let current_vertex = vertex;
+        let result = null;
+
+        while( iterations !== 0 ) {
+            for (const edge of current_vertex.edge) {
+                // traverse via outgoing edges and if match with the filter
+                if (edge.vertex[0] === current_vertex && edge_filter(edge)) {
+                    current_vertex = edge.vertex[1];
+                    result = current_vertex;
+                }
+            }
+            if( result === null) return null;
+            iterations--;
+        }
+        return result;
     }
 }
