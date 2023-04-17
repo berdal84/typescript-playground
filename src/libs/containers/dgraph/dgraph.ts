@@ -139,24 +139,33 @@ export class DGraph<
     /**
      * Traverse the graph from a given vertex and following conditions (edge_filter)
      * @param vertex
-     * @param edge_filter
+     * @param can_traverse_edge
      * @param iterations
      */
-    traverse(vertex: IVertex, edge_filter: (edge: IEdge<EdgeProps>) => boolean, iterations: number): IVertex | null {
-        let current_vertex = vertex;
-        let result = null;
+    traverse(vertex: IVertex, can_traverse_edge: (edge: IEdge<EdgeProps>) => boolean, iterations: number): IVertex | null {
+        let current_vtx = vertex;
+        const traversed_edges: Array<IEdge> = [];
 
         while( iterations !== 0 ) {
-            for (const edge of current_vertex.edge) {
-                // traverse via outgoing edges and if match with the filter
-                if (edge.vertex[0] === current_vertex && edge_filter(edge)) {
-                    current_vertex = edge.vertex[1];
-                    result = current_vertex;
+            let next_edge: IEdge = null;
+            // find the next edge
+            for (const edge of current_vtx.edge) {
+                // outgoing and not traversed and matches user defined filter
+                if (edge.vertex[0] === current_vtx && !traversed_edges.includes(edge) && can_traverse_edge(edge)) {
+                    next_edge = edge;
+                    break;
                 }
             }
-            if( result === null) return null;
+            // In case we have no next edge, we can stop to iterate
+            if (!next_edge) break;
+            // If not, we store the edge in the stack and prepare next iteration
+            traversed_edges.push(next_edge);
+            current_vtx = next_edge.vertex[1];
             iterations--;
         }
-        return result;
+        // return the last edge's destination vertex or null if none.
+        const last_edge = traversed_edges.pop();
+        if(!last_edge) return null;
+        return last_edge.vertex[1];
     }
 }

@@ -109,4 +109,18 @@ describe('DirectedGraph', () => {
         expect(graph.traverse(b, get_next, 2)).toEqual(c);
         expect(graph.traverse(c, get_next, 2)).toEqual(null);
     })
+
+    test('traverse() 3 iterations', () => {
+        const a = graph.create_node({ name: "a"});
+        const b = graph.create_node({ name: "b"});
+        const c = graph.create_node({ name: "c"});
+
+        graph.connect(a, b, { type: "next" });
+        graph.connect(b, c, { type: "next" });
+        graph.connect(c, b, { type: "next" });
+
+        const  get_next = (edge: IEdge<EdgeProps>) => edge.props.type === 'next';
+
+        expect(graph.traverse(a, get_next, Infinity)).toEqual(b);
+    })
 })
