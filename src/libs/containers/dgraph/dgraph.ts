@@ -11,12 +11,9 @@ export interface IVertex<Props = any> {
  * Directed edge between two nodes, can hold data.
  */
 export interface IEdge<Props = any> {
+    type: 'parent' | 'next';
     vertex: [IVertex, IVertex];
     props: Props;
-}
-
-type RequiredEdgeProps = {
-    type: 'parent' | 'next'
 }
 
 /**
@@ -30,7 +27,7 @@ type RequiredEdgeProps = {
  */
 export class DGraph<
     VertexProps extends Record<string, any>,
-    EdgeProps extends Record<string, any> & RequiredEdgeProps> {
+    EdgeProps extends Record<string, any>> {
 
     private readonly _vertex: Set<IVertex<VertexProps>>;
     private readonly _edges: Set<IEdge<EdgeProps>>;
@@ -96,7 +93,8 @@ export class DGraph<
         }
         const edge: IEdge<EdgeProps> = {
             props,
-            vertex: [from, to]
+            vertex: [from, to],
+            type: 'parent'
         }
         this._edges.add(edge);
         from.edge.add(edge);
