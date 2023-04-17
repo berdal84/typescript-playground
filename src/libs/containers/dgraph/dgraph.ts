@@ -137,16 +137,18 @@ export class DGraph<
     }
 
     /**
-     * Traverse the graph from a given vertex and following conditions (edge_filter)
-     * @param vertex
-     * @param can_traverse_edge
-     * @param iterations
+     * Traverse the graph from a given vertex and following edges under certain conditions defined by can_traverse_edge.
+     * @param vertex  the vertex to start the traversal from
+     * @param can_traverse_edge a function returning true if a given edge must be traversed and false otherwise
+     * @param max_iteration number of times the traversal algorithm will be executed, also correspond to the max count of edges that can be traversed.
+     * @returns the last visited vertex or null if no edge have been traversed.
+     *          Note: You could get the input vertex as a return in case there is a loop in the graph.
      */
-    traverse(vertex: IVertex, can_traverse_edge: (edge: IEdge<EdgeProps>) => boolean, iterations: number): IVertex | null {
+    traverse(vertex: IVertex, can_traverse_edge: (edge: IEdge<EdgeProps>) => boolean, max_iteration: number): IVertex | null {
         let current_vtx = vertex;
         const traversed_edges: Array<IEdge> = [];
 
-        while( iterations !== 0 ) {
+        while( max_iteration !== 0 ) {
             let next_edge_found: IEdge = null;
             // find the next edge
             for (const edge of current_vtx.edge) {
@@ -161,7 +163,7 @@ export class DGraph<
             // If not, we store the edge in the stack and prepare next iteration
             traversed_edges.push(next_edge_found);
             current_vtx = next_edge_found.vertex[1];
-            iterations--;
+            max_iteration--;
         }
         // return the last edge's destination vertex or null if none.
         const last_edge = traversed_edges.pop();
