@@ -23,8 +23,9 @@ type RequiredEdgeProps = {
  * Directed Graph formed by nodes and edges holding data (resp. NodeProps and EdgeProps type)
  *
  * TODO:
- *  - Speedup edge search (store edges ref in nodes too? Use an adjacency matrix?)
- *  - Write a traversal method/class (visitor? callback like in forEach and map?)
+ *  - Speedup edge search:
+ *    - adjacency matrix? (fast but consumes mem)
+ *    - hash JSON.stringify(edge) and use as key in a map?
  *  - ...
  */
 export class DGraph<
