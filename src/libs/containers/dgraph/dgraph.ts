@@ -147,20 +147,20 @@ export class DGraph<
         const traversed_edges: Array<IEdge> = [];
 
         while( iterations !== 0 ) {
-            let next_edge: IEdge = null;
+            let next_edge_found: IEdge = null;
             // find the next edge
             for (const edge of current_vtx.edge) {
                 // outgoing and not traversed and matches user defined filter
                 if (edge.vertex[0] === current_vtx && !traversed_edges.includes(edge) && can_traverse_edge(edge)) {
-                    next_edge = edge;
+                    next_edge_found = edge;
                     break;
                 }
             }
             // In case we have no next edge, we can stop to iterate
-            if (!next_edge) break;
+            if (!next_edge_found) break;
             // If not, we store the edge in the stack and prepare next iteration
-            traversed_edges.push(next_edge);
-            current_vtx = next_edge.vertex[1];
+            traversed_edges.push(next_edge_found);
+            current_vtx = next_edge_found.vertex[1];
             iterations--;
         }
         // return the last edge's destination vertex or null if none.
