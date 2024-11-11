@@ -7,7 +7,7 @@ export class FileService implements OnInit, IFileManager {
     init(): void {}
     close(file: File): void {}
     open(path: string): File {
-        return undefined;
+        throw new Error('Not implemented yet');
     }
     save(file: File): void {}
 }

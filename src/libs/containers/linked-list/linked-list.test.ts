@@ -1,6 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
 import {LinkedList} from './index'
-import exp = require("constants");
 
 describe('LinkedList', () => {
 
@@ -23,18 +22,18 @@ describe('LinkedList', () => {
         const list = new LinkedList();
         list.push_back("1");
         expect(list.length).toBe(1);
-        expect(list.root.data).toBe("1");
-        expect(list.last.data).toBe("1");
+        expect(list.root?.data).toBe("1");
+        expect(list.last?.data).toBe("1");
     })
 
     test('push_back() multiple items', () => {
         const list = new LinkedList();
         list.push_back("1", "2", "3");
         expect(list.length).toBe(3);
-        expect(list.root.data).toBe("1");
-        expect(list.root.next.data).toBe("2");
-        expect(list.root.next.next.data).toBe("3");
-        expect(list.last.data).toBe("3");
+        expect(list.root?.data).toBe("1");
+        expect(list.root?.next?.data).toBe("2");
+        expect(list.root?.next?.next?.data).toBe("3");
+        expect(list.last?.data).toBe("3");
     })
 
     test('push_back() twice', () => {
@@ -42,11 +41,11 @@ describe('LinkedList', () => {
 
         list.push_back("1", "2");
         const last = list.last;
-        expect(last.data).toBe("2");
+        expect(last?.data).toBe("2");
 
         list.push_back("3");
         expect(list.last).not.toBe(last);
-        expect(list.last.data).toBe("3");
+        expect(list.last?.data).toBe("3");
     })
 
     test('push_back() empty array', () => {
@@ -106,7 +105,7 @@ describe('LinkedList', () => {
         const list = new LinkedList('1', '2', '3');
         list.remove_at(0);
         expect(list.length).toBe(2);
-        expect(list.root.data).toBe("2");
+        expect(list.root?.data).toBe("2");
     })
 
     test('remove_at() last item', () => {
@@ -124,20 +123,20 @@ describe('LinkedList', () => {
     test('insert_at() in the middle', () => {
         const list = new LinkedList('1', '2', '4', '5');
         list.insert_at('3', 2);
-        expect(list.root.next.next.data).toBe('3');
-        expect(list.root.next.next.next.data).toBe('4');
+        expect(list.root?.next?.next?.data).toBe('3');
+        expect(list.root?.next?.next?.next?.data).toBe('4');
     })
 
     test('insert_at() at index 0', () => {
         const list = new LinkedList('1', '2', '4', '5');
         list.insert_at('0', 0);
-        expect(list.root.data).toBe("0")
+        expect(list.root?.data).toBe("0")
     })
 
     test('insert_at() at index length-1', () => {
         const list = new LinkedList('1', '2', '4', '5');
         list.insert_at('4.5', list.length - 1);
-        expect(list.last.data).toBe("5")
+        expect(list.last?.data).toBe("5")
     })
 
     test('insert_at() out of bounds', () => {

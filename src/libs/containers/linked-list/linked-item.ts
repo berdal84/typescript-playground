@@ -3,7 +3,7 @@
  */
 export class LinkedItem<T> {
 
-    next: LinkedItem<T>;
+    next: LinkedItem<T> | null;
     data: T;
 
     constructor(_data: T) {

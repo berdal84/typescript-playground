@@ -5,7 +5,9 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 
-readline.question('Enter a list of numbers separated by a coma, we will sort it for you:\n>>> ', inputString => {
+readline.question(
+    'Enter a list of numbers separated by a coma, we will sort it for you:\n>>> ',
+    (inputString: string) => {
     // to store not number input strings
     const not_numbers: string[] = [];
 
