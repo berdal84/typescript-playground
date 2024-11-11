@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Various piece of code using Typescript language",
   "engines": {
-    "node": "^18.15.0",
-    "npm": "9.5.0"
+    "node": "^22.11.0",
+    "npm": "^10.9.0"
   },
   "scripts": {
     "build": "npx tsc",
