@@ -25,7 +25,8 @@ Within the `src` folder, you can find two main folders:
 
 `npm install` will install the dependencies.
 
-`npm start` will run all the examples.
+`npx ts-node src/examples/<example.js>` will run a given example.
+`npx ts-node-dev --respawn src/examples/<example.js>` (for dev).
 
 `npm run test` will run the unit tests once.
 

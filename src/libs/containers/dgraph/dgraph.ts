@@ -148,7 +148,7 @@ export class DGraph<
         const traversed_edges: Array<IEdge> = [];
 
         while( max_iteration !== 0 ) {
-            let next_edge_found: IEdge = null;
+            let next_edge_found: IEdge|null = null;
             // find the next edge
             for (const edge of current_vtx.edge) {
                 // outgoing and not traversed and matches user defined filter

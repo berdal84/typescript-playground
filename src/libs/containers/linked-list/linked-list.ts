@@ -3,9 +3,9 @@ import {LinkedItem} from "./linked-item";
 export class LinkedList<T> {
 
     // Ref to the first item
-    root: LinkedItem<T>;
+    root: LinkedItem<T> | null;
     // Ref to the last item
-    last: LinkedItem<T>;
+    last: LinkedItem<T> | null;
     // Cache length instead of having to count each time length() is called
     private _length;
 
@@ -57,7 +57,6 @@ export class LinkedList<T> {
      * Empty this linked list
      */
     clear() {
-        delete this.root;
         this.root = null;
         this.last = null;
         this._length = 0;
@@ -72,15 +71,17 @@ export class LinkedList<T> {
         // early return when list is empty
         if (this.is_empty()) return '[empty list]';
 
-        let result = '';
-        let currentItem = this.root;
-        result += '[';
-        result += currentItem.data;
-        while (currentItem.next) {
-            result += ' -> ';
-            currentItem = currentItem.next;
-            result += currentItem.data;
+        let result = '[';
+
+        let current_item = this.root;
+        while ( current_item ) {
+            if ( current_item != this.root ) {
+                result += ' -> ';
+            }
+            result += current_item.data;
+            current_item = current_item.next;
         }
+
         result += ']';
 
         return result;
@@ -98,14 +99,18 @@ export class LinkedList<T> {
      * Get the nth element
      * Complexity is O(n).
      */
-    at(index: number): LinkedItem<T> {
+    at(index: number): LinkedItem<T> | never {
         if (index < 0 || index >= this._length) throw new Error(`Index out of bounds`)
         let cursor = 0;
         let item = this.root;
         while (index != cursor) {
+            if ( !item )
+                break;
             item = item.next;
             cursor++;
         }
+        if (!item)
+            throw new Error('Out of bounds');
         return item;
     }
 
@@ -120,13 +125,21 @@ export class LinkedList<T> {
 
         // If deletes the first item
         if (index === 0) {
+            if ( !this.root ) {
+                return;
+            }
             const new_root = this.root.next;
             this.root.next = null;
             this.root = new_root;
+            
         } else {
             // if deletes any other item
             const item_before = this.at(index - 1);
+            if ( !item_before )
+                return;
             const item_to_delete = item_before.next;
+            if ( !item_to_delete )
+                return;
             item_before.next = item_to_delete.next;
         }
         this._length--;
@@ -147,6 +160,8 @@ export class LinkedList<T> {
             this.root = newItem;
         } else {
             const previous = this.at(index - 1);
+            if (!previous)
+                return;
             newItem.next = previous.next;
             previous.next = newItem;
         }
@@ -161,7 +176,7 @@ export class LinkedList<T> {
         const result = new Array<T>(this._length);
         let current_item = this.root;
         let current_index = 0;
-        while (current_index < this._length) {
+        while ( current_item && current_index < this._length) {
             result[current_index] = current_item.data;
             current_item = current_item.next;
             current_index++;
@@ -178,7 +193,7 @@ export class LinkedList<T> {
         const result = new Array<LinkedItem<T>>(this._length);
         let current_item = this.root;
         let current_index = 0;
-        while (current_index < this._length) {
+        while (current_item && current_index < this._length) {
             result[current_index] = current_item;
             current_item = current_item.next;
             current_index++;
@@ -193,7 +208,7 @@ export class LinkedList<T> {
      */
     private static _make_chain<T>(data: T[]) {
         // to track the last item
-        let previous_item: LinkedItem<T> = null;
+        let previous_item: LinkedItem<T> | null = null;
 
         // create one linked item per data
         return data.map((each_data, index) => {

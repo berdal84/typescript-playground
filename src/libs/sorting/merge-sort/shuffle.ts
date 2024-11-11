@@ -4,7 +4,7 @@
  * Shuffle function from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
  * @see algorithm https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
  */
-export function shuffle(array) {
+export function shuffle<T>(array: T[]): T[] {
     let currentIndex = array.length,  randomIndex;
 
     // While there remain elements to shuffle.

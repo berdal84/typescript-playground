@@ -10,13 +10,14 @@
         "typeRoots": [
             "./node_modules/@types"
         ],
+        "strict": true,
         "baseUrl": ".",
         "paths": {
             "@libs*": ["src/libs/*", "src/libs"]
         }
     },
     "include": [
-        "src"
+        "src",
     ],
     "exclude": [
         "**/*.test.ts",

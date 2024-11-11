@@ -31,7 +31,8 @@ export class Validator {
      */
     get_schema(type_name: string, auto_generate = true): Definition {
         // Try to load from cache
-        if(this.cache.has(type_name)) return this.cache.get(type_name);
+        const existing = this.cache.get(type_name);
+        if(existing) return existing;
         // throws if autogenerate is off
         if(!auto_generate) throw new Error(`No schema found for ${type_name}. Turn on  auto_generate or call generate_schema()`);
         // generate schema
@@ -42,7 +43,7 @@ export class Validator {
      * Generate a schema from a type name
      * @param type_name should match with filename with no extension.
      */
-    generate_schema(type_name: string):  Definition {
+    generate_schema(type_name: string):  Definition | never {
 
         const file_path = resolve(this.root_dir ,`${type_name}.ts`);
 
@@ -58,6 +59,10 @@ export class Validator {
         const schema = generateSchema(program, type_name, {
             required: true,
         });
+
+        if ( !schema ) {
+            throw new Error(`Unable to generate a schema for type ${type_name}`);
+        }
 
         //  warns if cache entry already exists
         if(this.cache.has(type_name)) console.warn(`A schema for ${type_name} exists and will be replaced`);
